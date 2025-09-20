@@ -25,3 +25,13 @@ def fetch_tweets(query, max_results=10):
     cleaned_df = clean_text(df)  # Clean the fetched tweets
     cleaned_df.to_csv('data/raw_tweets.csv', index=False)  # Save to CSV
     return cleaned_df
+
+# # Main block for dynamic input testing
+# if __name__ == "__main__":
+#     keyword = input("Enter a keyword for tweets (e.g., 'Bitcoin'): ").strip()
+#     if not keyword:
+#         keyword = "Bitcoin"  # Default fallback
+#     query = f"{keyword} lang:en"
+#     df = fetch_tweets(query, max_results=10)
+#     print(f"Fetched and cleaned {len(df)} tweets for '{keyword}':")
+#     print(df)
