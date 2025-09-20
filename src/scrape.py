@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 import os
 import pandas as pd
 from preprocess import clean_text  # Import the cleaning function
+from sentiment import analyze_sentiment  # Import the sentiment function
 
 load_dotenv()  # Load .env variables
 
@@ -23,15 +24,6 @@ def fetch_tweets(query, max_results=10):
     data = [{'text': tweet.text, 'created_at': tweet.created_at} for tweet in tweets.data]
     df = pd.DataFrame(data)
     cleaned_df = clean_text(df)  # Clean the fetched tweets
-    cleaned_df.to_csv('data/raw_tweets.csv', index=False)  # Save to CSV
-    return cleaned_df
-
-# # Main block for dynamic input testing
-# if __name__ == "__main__":
-#     keyword = input("Enter a keyword for tweets (e.g., 'Bitcoin'): ").strip()
-#     if not keyword:
-#         keyword = "Bitcoin"  # Default fallback
-#     query = f"{keyword} lang:en"
-#     df = fetch_tweets(query, max_results=10)
-#     print(f"Fetched and cleaned {len(df)} tweets for '{keyword}':")
-#     print(df)
+    sentiment_df = analyze_sentiment(cleaned_df)  # Analyze sentiment
+    sentiment_df.to_csv('data/sentiment_tweets.csv', index=False)  # Save to CSV
+    return sentiment_df
