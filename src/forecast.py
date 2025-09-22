@@ -28,5 +28,5 @@ def forecast_sentiment(df, sentiment_column='sentiment_score', date_column='crea
     
     # Combine historical and forecast
     result = forecast[['ds', 'yhat', 'yhat_lower', 'yhat_upper']]
-    result['type'] = ['Historical' if i < len(prophet_df) else 'Forecast' for i in range(len(result))]
+    result.loc[:, 'type'] = ['Historical' if i < len(prophet_df) else 'Forecast' for i in range(len(result))]
     return result
