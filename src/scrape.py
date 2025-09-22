@@ -2,10 +2,10 @@ import tweepy
 from dotenv import load_dotenv
 import os
 import pandas as pd
-from preprocess import clean_text  # Import the cleaning function
-from sentiment import analyze_sentiment  # Import the sentiment function
+from preprocess import clean_text
+from sentiment import analyze_sentiment
 
-load_dotenv()  # Load .env variables
+load_dotenv()
 
 def fetch_tweets(query, max_results=10):
     client = tweepy.Client(bearer_token=os.getenv('X_BEARER_TOKEN'))
@@ -23,7 +23,17 @@ def fetch_tweets(query, max_results=10):
         return pd.DataFrame()
     data = [{'text': tweet.text, 'created_at': tweet.created_at} for tweet in tweets.data]
     df = pd.DataFrame(data)
-    cleaned_df = clean_text(df)  # Clean the fetched tweets
-    sentiment_df = analyze_sentiment(cleaned_df)  # Analyze sentiment
-    sentiment_df.to_csv('data/sentiment_tweets.csv', index=False)  # Save to CSV
+    cleaned_df = clean_text(df)
+    sentiment_df = analyze_sentiment(cleaned_df)
+    sentiment_df.to_csv('data/sentiment_tweets.csv', index=False)
     return sentiment_df
+
+# Dynamic input for testing (remove after)
+if __name__ == "__main__":
+    keyword = input("Enter a keyword (e.g., 'Bitcoin'): ").strip()
+    if not keyword:
+        keyword = "Bitcoin"
+    query = f"{keyword} lang:en"
+    df = fetch_tweets(query, max_results=10)
+    print(f"Analyzed {len(df)} tweets for '{keyword}':")
+    print(df)
