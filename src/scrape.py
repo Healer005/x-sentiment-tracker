@@ -27,13 +27,3 @@ def fetch_tweets(query, max_results=10):
     sentiment_df = analyze_sentiment(cleaned_df)
     sentiment_df.to_csv('data/sentiment_tweets.csv', index=False)
     return sentiment_df
-
-# Dynamic input for testing (remove after)
-if __name__ == "__main__":
-    keyword = input("Enter a keyword (e.g., 'Bitcoin'): ").strip()
-    if not keyword:
-        keyword = "Bitcoin"
-    query = f"{keyword} lang:en"
-    df = fetch_tweets(query, max_results=10)
-    print(f"Analyzed {len(df)} tweets for '{keyword}':")
-    print(df)
